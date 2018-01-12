@@ -1,0 +1,50 @@
+ion-grid {
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-left: 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+ion-grid ion-row:first-child ion-col.header,
+ion-grid ion-row:first-child ion-col.body {
+  border-top: 0;
+}
+
+ion-col {
+  border-left: 1px solid #dddddd;
+}
+
+ion-col.body {
+  background-color: #f9f9f9;
+  word-break: break-all;
+  text-align: center;
+}
+
+ion-row:nth-child(2n) > ion-col.body, ion-row:nth-child(2n) > ion-col.body {
+  background: white;
+}
+
+ion-row > ion-col.body:first-child {
+  text-align: left;
+}
+
+ion-row > ion-col.body:first-child.empty {
+  text-align: center;
+}
+
+ion-col.header {
+  white-space:nowrap;
+  vertical-align: top;
+  color: #333333;
+  text-align: center;
+  background-color: #B9CDE5 !important;
+  background-image: -moz-linear-gradient(top, #C9DDF5, #B9CDE5);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#C9DDF5), to(#B9CDE5));
+  background-image: -webkit-linear-gradient(top, #C9DDF5, #B9CDE5);
+  background-image: -o-linear-gradient(top, #C9DDF5, #B9CDE5);
+  background-image: linear-gradient(to bottom, #C9DDF5, #B9CDE5);
+  background-repeat: repeat-x;
+}

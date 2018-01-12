@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'login' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="platform-demo">
+  <ion-item>
+    <ion-label>{{ 'changeLang'| translate }}</ion-label>
+    <ion-select #langSelect (ionChange)="translate.use(langSelect.value)">
+      <ion-option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{lang}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <form [formGroup]="loginForm" (submit)="loginClick($event)">
+    <ion-item [class.error]="!userName.valid && userName.touched">
+      <ion-icon name="person" item-start></ion-icon>
+      <ion-input type="text" placeholder="Username" formControlName="userName"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-icon name="lock" item-start></ion-icon>
+        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+        <ion-icon name="eye" item-end></ion-icon>
+    </ion-item>
+
+    <ion-item>
+      <ion-checkbox formControlName="checkedName"></ion-checkbox>
+      <ion-label>Remember username</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-checkbox formControlName="checkedPas"></ion-checkbox>
+      <ion-label>Remember password</ion-label>
+    </ion-item>
+
+    <button ion-button color="primary" block type="submit" [disabled]="!loginForm.valid">Sign In</button>
+  </form>
+</ion-content>

@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>User information</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let itemHeader of headerList; let i = index;" class="header">{{itemHeader}}</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let item of userList; let i = index;">
+      <ion-col class="body">{{item.userName}}</ion-col>
+      <ion-col class="body">{{item.password}}</ion-col>
+      <ion-col class="body">{{item.userSex}}</ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div padding>
+    <button ion-button color="secondary" block (click)="playMedia();">Play media</button>
+  </div>
+
+  <div padding>
+  <button ion-button color="secondary" block (click)="playVideo();">Play video</button>
+  </div>
+
+  <div padding>
+    <button ion-button color="secondary" block (click)="barcodeSc();">Barcode scanner</button>
+  </div>
+
+  <div padding>
+    <button ion-button color="secondary" block (click)="sharing();">Social sharing</button>
+  </div>
+
+  <div padding>
+    <button ion-button color="secondary" block >Fingerprint auth</button>
+  </div>
+</ion-content>
