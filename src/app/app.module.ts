@@ -25,6 +25,10 @@ import { VideoPlayer } from '@ionic-native/video-player';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SocialSharing } from '@ionic-native/social-sharing';
 
+import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
+
 export function HttpLoaderFactory(http : HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -69,6 +73,10 @@ export function HttpLoaderFactory(http : HttpClient) {
     VideoPlayer,
     BarcodeScanner,
     SocialSharing,
+    FileTransfer,
+    FileTransferObject,
+    File,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -18,22 +18,24 @@
   </ion-grid>
 
   <div padding>
-    <button ion-button color="secondary" block (click)="playMedia();">Play media</button>
-  </div>
+    <button ion-button color="secondary" (click)="playMedia();" icon-left>Play media</button>
+    <button ion-button color="secondary" (click)="playVideo();" icon-right>Play video</button>
 
-  <div padding>
-  <button ion-button color="secondary" block (click)="playVideo();">Play video</button>
-  </div>
-
-  <div padding>
     <button ion-button color="secondary" block (click)="barcodeSc();">Barcode scanner</button>
-  </div>
 
-  <div padding>
     <button ion-button color="secondary" block (click)="sharing();">Social sharing</button>
+
+    <button ion-button color="secondary" (click)="choosePhoto()" icon-left>Choose photo</button>
+
+    <button ion-button color="secondary" (click)="chooseVideo()" icon-right>Choose video</button>
   </div>
 
+  <ion-avatar text-center>
+    <img [src]="profilePicture" style="margin: 5px auto;border-radius: 5% ;max-width: 70%; max-height: 30%" />
+  </ion-avatar>
+
   <div padding>
-    <button ion-button color="secondary" block >Fingerprint auth</button>
+    <button ion-button color="secondary" (click)="uploadFile()" icon-left>Upload file</button>
+    <button ion-button color="secondary" (click)="downloadFile()" icon-right>Download file</button>
   </div>
 </ion-content>

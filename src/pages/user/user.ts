@@ -11,19 +11,29 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ToastUtils } from '../utils/ToastUtils';
 import { SocialSharing } from '@ionic-native/social-sharing';
 
+import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
+
 @Component({
   selector: 'page-user',
   templateUrl: 'user.html',
   providers: [UserService]
 })
 export class UserPage {
+  server_url: string = "http://192.168.199.170:8080/api/";
   userList: Array<UserModel>;
   userRow: UserEntity;
   headerList :any;
+  public path: any;
+  profilePicture: any;
+  public fileName: any;
+  loginUser: string;
 
   constructor(public navCtrl: NavController, private userService: UserService, public loadingCtrl: LoadingController,
               private media: Media, private videoPlayer: VideoPlayer, private barcodeScanner : BarcodeScanner,
-              private toastUtils: ToastUtils, private socialSharing: SocialSharing) {
+              private toastUtils: ToastUtils, private socialSharing: SocialSharing, private transfer: FileTransfer,
+              private file: File, private camera: Camera) {
     this.presentLoading();
 
     this.headerList = ["User name", "Password", "User sex"];
@@ -41,6 +51,8 @@ export class UserPage {
      });
 
    this.playMedia();
+
+   this.file.createDir("file:///storage/emulated/0/", "Android/data/io.ionic.starter", true);
   }
 
   presentLoading() {
@@ -98,5 +110,73 @@ file.seekTo(0);
     this.socialSharing.share("Test").then(() => {
 
     }).catch(() => {});
+  }
+
+  choosePhoto() {
+    const options = {
+      quality: 50,
+      sourceType:0,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      correctOrientation: true
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.path = imageData;
+      this.profilePicture = imageData;
+      this.fileName = "test_img.jpg";
+      //this.file.writeFile(this.file.dataDirectory, this.fileName, imageData);
+
+      this.toastUtils.showToastWithCloseButton("imageData:" + imageData);
+    }, (err) => {
+      this.toastUtils.showToastWithCloseButton("picture error:" + err);
+    })
+  }
+
+  chooseVideo() {
+    const options = {
+      quality: 100,
+      sourceType:0,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      mediaType: this.camera.MediaType.VIDEO
+    }
+
+    this.camera.getPicture(options).then((videoData) => {
+      this.path = videoData;
+      this.fileName = "test_video.mp4";
+      //this.file.writeFile(this.file.dataDirectory, this.fileName, videoData);
+
+      this.toastUtils.showToastWithCloseButton("videoData:" + videoData);
+    }, (err) => {
+      this.toastUtils.showToastWithCloseButton("video error:" + err);
+    })
+  }
+
+  uploadFile() {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+
+    let options: FileUploadOptions = {
+      fileKey: 'file',
+      fileName: this.fileName,
+      headers: {}
+    }
+
+    fileTransfer.upload(this.path, this.server_url + "upload/multi", options).then((data) => {
+      this.toastUtils.showToastWithCloseButton("Upload successfully!");
+    }, (err) => {
+      this.toastUtils.showToastWithCloseButton("Upload has error");
+    })
+  }
+
+  downloadFile() {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+
+    fileTransfer.download(this.server_url + "download?name=" + this.fileName, this.path).then((entry) => {
+      this.toastUtils.showToastWithCloseButton("Download successfully:" + entry.toURL());
+    }, (error) => {
+      this.toastUtils.showToastWithCloseButton("Download has error");
+    })
   }
 }
