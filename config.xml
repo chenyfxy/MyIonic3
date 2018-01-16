@@ -82,7 +82,6 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.11" />
     <plugin name="cordova-plugin-advanced-http" spec="^1.9.1" />
     <allow-navigation href="http://*/*" />
-    <plugin name="cordova-plugin-media" spec="^5.0.1" />
     <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.1" />
     <allow-navigation href="http://192.168.199.170:8100" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
@@ -90,4 +89,5 @@
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.0" />
     <plugin name="cordova-plugin-camera" spec="^4.0.1" />
+    <plugin name="cordova-plugin-media" spec="^4.0.0" />
 </widget>

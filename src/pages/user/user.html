@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>User information</ion-title>
+    <ion-title>User[{{loginUser}}] information</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -38,4 +38,6 @@
     <button ion-button color="secondary" (click)="uploadFile()" icon-left>Upload file</button>
     <button ion-button color="secondary" (click)="downloadFile()" icon-right>Download file</button>
   </div>
+
+  <div id="map_container" class="map_container"></div>
 </ion-content>

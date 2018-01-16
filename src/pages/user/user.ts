@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { NavController} from 'ionic-angular';
 import { UserService } from "../services/UserService";
 import { UserEntity } from "../model/UserEntity";
 import {UserModel} from "../model/UserModel";
 import { LoadingController } from 'ionic-angular';
 
+import { Storage } from '@ionic/storage';
 import { Media, MediaObject } from '@ionic-native/media';
 import { VideoPlayer } from '@ionic-native/video-player';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -14,6 +15,8 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
+
+declare const AMap: any;
 
 @Component({
   selector: 'page-user',
@@ -33,7 +36,7 @@ export class UserPage {
   constructor(public navCtrl: NavController, private userService: UserService, public loadingCtrl: LoadingController,
               private media: Media, private videoPlayer: VideoPlayer, private barcodeScanner : BarcodeScanner,
               private toastUtils: ToastUtils, private socialSharing: SocialSharing, private transfer: FileTransfer,
-              private file: File, private camera: Camera) {
+              private file: File, private camera: Camera, private storage: Storage) {
     this.presentLoading();
 
     this.headerList = ["User name", "Password", "User sex"];
@@ -52,7 +55,15 @@ export class UserPage {
 
    this.playMedia();
 
-   this.file.createDir("file:///storage/emulated/0/", "Android/data/io.ionic.starter", true);
+    this.storage.get("userName").then((value) => {
+      if (value != null) {
+        this.loginUser = value;
+      }
+    });
+  }
+
+  ionViewDidEnter() {
+    this.loadedMap();
   }
 
   presentLoading() {
@@ -178,5 +189,22 @@ file.seekTo(0);
     }, (error) => {
       this.toastUtils.showToastWithCloseButton("Download has error");
     })
+  }
+
+  loadedMap() {
+    let map = new AMap.Map('map_container', {
+      zoom: 11,
+      rotateEnable: true,
+      showBuildingBlock: true
+    });
+
+    AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.OverView', 'AMap.Geolocation', 'AMap.MapType'],
+      function() {
+        map.addControl(new AMap.ToolBar());
+        map.addControl(new AMap.Scale());
+        map.addControl(new AMap.OverView({isOpen: true}));
+        map.addControl(new AMap.Geolocation());
+        map.addControl(new AMap.MapType());
+      });
   }
 }
