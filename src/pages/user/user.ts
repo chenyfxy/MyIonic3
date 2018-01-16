@@ -53,8 +53,6 @@ export class UserPage {
        }
      });
 
-   this.playMedia();
-
     this.storage.get("userName").then((value) => {
       if (value != null) {
         this.loginUser = value;
