@@ -8,10 +8,14 @@ import { UserPage } from '../user/user';
 
 import { TranslateService } from '@ngx-translate/core';
 
+import { QQSDK, QQShareOptions } from '@ionic-native/qqsdk';
+
+import { ShareService } from '../services/ShareService';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [HttpService, ToastUtils]
+  providers: [HttpService, ToastUtils, ShareService]
 })
 export class HomePage implements OnInit {
   public loginForm : FormGroup;
@@ -25,7 +29,7 @@ export class HomePage implements OnInit {
   // first run
   constructor(public navCtrl: NavController, public storage: Storage,
               private formBuilder: FormBuilder, private httpService: HttpService, private toastUtils : ToastUtils,
-              private translate: TranslateService) {
+              private translate: TranslateService, private qq: QQSDK, private shareService: ShareService) {
     this.setDefaultValues();
 
     this.translate.addLangs(['zh-CN', 'en']);
@@ -95,4 +99,27 @@ export class HomePage implements OnInit {
     )
   };
 
+  qqLogin() {
+    const clientOptions: QQShareOptions = {
+      client: this.qq.ClientType.QQ
+    };
+
+    this.qq.checkClientInstalled(clientOptions).then(result => {
+      alert('client is installed');
+    }).catch(err => {
+      alert('client is not installed:' + err);
+    })
+
+    this.qq.ssoLogin(clientOptions).then(result => {
+      alert('token is ' + result.access_token);
+      alert('userid is ' + result.userid);
+      alert('expires_time is ' + new Date(parseInt(result.expires_time)) + ' TimeStamp is ' + result.expires_time);
+    }).catch(error => {
+      alert(error); // Failed
+    });
+  }
+
+  wechatLogin() {
+    this.shareService.wechatLogin();
+  }
 }

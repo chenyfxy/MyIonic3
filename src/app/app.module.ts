@@ -29,6 +29,10 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 
+import { QQSDK } from '@ionic-native/qqsdk';
+
+import { ShareService } from '../pages/services/ShareService';
+
 export function HttpLoaderFactory(http : HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -77,6 +81,8 @@ export function HttpLoaderFactory(http : HttpClient) {
     FileTransferObject,
     File,
     Camera,
+    QQSDK,
+    ShareService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -192,17 +192,35 @@ file.seekTo(0);
   loadedMap() {
     let map = new AMap.Map('map_container', {
       zoom: 11,
-      rotateEnable: true,
-      showBuildingBlock: true
+      resizeEnable: true
     });
+    let autoComplete;
+    let placeSearch;
 
-    AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.OverView', 'AMap.Geolocation', 'AMap.MapType'],
+    AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.OverView', 'AMap.MapType', 'AMap.Geolocation', 'AMap.Autocomplete','AMap.PlaceSearch'],
       function() {
         map.addControl(new AMap.ToolBar());
         map.addControl(new AMap.Scale());
         map.addControl(new AMap.OverView({isOpen: true}));
-        map.addControl(new AMap.Geolocation());
         map.addControl(new AMap.MapType());
+
+        var geoLocation = new AMap.Geolocation({
+          enableHighAccuracy: true,
+          timeout: 10000,
+          zoomToAccuracy: true,
+          buttonPosition: 'LB'
+        });
+        map.addControl(geoLocation);
+        geoLocation.getCurrentPosition();
+
+        autoComplete = new AMap.Autocomplete({ input:'autoInput'});
+
+        placeSearch = new AMap.PlaceSearch({
+          map: map
+        });
+        AMap.event.addListener(autoComplete, "select", function(e){
+          placeSearch.search(e.poi.name);
+        });
       });
   }
 }
