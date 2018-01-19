@@ -28,10 +28,13 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { QQSDK } from '@ionic-native/qqsdk';
 
 import { ShareService } from '../pages/services/ShareService';
+
+import { Dialogs } from '@ionic-native/dialogs';
 
 export function HttpLoaderFactory(http : HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -83,6 +86,8 @@ export function HttpLoaderFactory(http : HttpClient) {
     Camera,
     QQSDK,
     ShareService,
+    Geolocation,
+    Dialogs,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

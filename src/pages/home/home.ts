@@ -12,6 +12,8 @@ import { QQSDK, QQShareOptions } from '@ionic-native/qqsdk';
 
 import { ShareService } from '../services/ShareService';
 
+import { Dialogs } from '@ionic-native/dialogs';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -29,13 +31,15 @@ export class HomePage implements OnInit {
   // first run
   constructor(public navCtrl: NavController, public storage: Storage,
               private formBuilder: FormBuilder, private httpService: HttpService, private toastUtils : ToastUtils,
-              private translate: TranslateService, private qq: QQSDK, private shareService: ShareService) {
+              private translate: TranslateService, private qq: QQSDK, private shareService: ShareService, private dialogs: Dialogs) {
     this.setDefaultValues();
 
     this.translate.addLangs(['zh-CN', 'en']);
 
     let broswerLang = this.translate.getBrowserLang();
     this.translate.use(broswerLang.match(/en|zh-CN/) ? broswerLang : 'zh-CN');
+
+    this.dialogs.alert('Hello world');
   }
 
   // second run

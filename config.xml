@@ -92,8 +92,10 @@
     <plugin name="cordova-plugin-qqsdk" spec="^0.9.6">
         <variable name="QQ_APP_ID" value="101386962" />
     </plugin>
-    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
     <plugin name="cordova-plugin-wechat" spec="^2.1.0">
         <variable name="WECHATAPPID" value="wx4a525790c75c494f" />
     </plugin>
+    <plugin name="com.moust.cordova.videoplayer" spec="..\myCordovaPlugins\com.moust.cordova.videoplayer" />
+    <plugin name="cordova-plugin-dialogs" spec="^2.0.1" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
 </widget>

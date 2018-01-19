@@ -39,6 +39,32 @@
     <button ion-button color="secondary" (click)="downloadFile()" icon-right>Download file</button>
   </div>
 
+  SVG:
+  <div padding>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="190">
+      <polygon points="100,10 40,180 190,60 10,60 160,180"
+               style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;" />
+    </svg>
+  </div>
+
+  Canvas:
+  <div padding>
+    <canvas id="myCanvas" width="200" height="100" style="border:1px solid #c3c3c3;">
+    </canvas>
+  </div>
+
+  Chart Line:
+  <div padding>
+    <canvas #chartLine width="200" height="100"></canvas>
+  </div>
+
+  <div padding>
+      Latitude : {{latitude}}
+      Longitude : {{longitude}}
+
+      <button ion-button color="secondary" (click)="getCurrentPosition()">Get current location</button>
+  </div>
+
   <div id="myPageTop" padding>
     <table>
       <tr>

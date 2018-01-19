@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild, ElementRef} from '@angular/core';
 import { NavController} from 'ionic-angular';
 import { UserService } from "../services/UserService";
 import { UserEntity } from "../model/UserEntity";
@@ -15,8 +15,12 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
+import { Geolocation } from '@ionic-native/geolocation';
+
+import Chart from 'chart.js';
 
 declare const AMap: any;
+// declare var LocationPlugin;
 
 @Component({
   selector: 'page-user',
@@ -32,11 +36,14 @@ export class UserPage {
   profilePicture: any;
   public fileName: any;
   loginUser: string;
+  latitude: any;
+  longitude: any;
+  @ViewChild('chartLine') chartLine: ElementRef;
 
   constructor(public navCtrl: NavController, private userService: UserService, public loadingCtrl: LoadingController,
               private media: Media, private videoPlayer: VideoPlayer, private barcodeScanner : BarcodeScanner,
               private toastUtils: ToastUtils, private socialSharing: SocialSharing, private transfer: FileTransfer,
-              private file: File, private camera: Camera, private storage: Storage) {
+              private file: File, private camera: Camera, private storage: Storage, private location: Geolocation) {
     this.presentLoading();
 
     this.headerList = ["User name", "Password", "User sex"];
@@ -61,6 +68,10 @@ export class UserPage {
   }
 
   ionViewDidEnter() {
+    this.loadCanvas();
+
+    this.loadChart();
+
     this.loadedMap();
   }
 
@@ -208,10 +219,19 @@ file.seekTo(0);
           enableHighAccuracy: true,
           timeout: 10000,
           zoomToAccuracy: true,
-          buttonPosition: 'LB'
+          buttonPosition: 'LB',
+          useNative: true
         });
         map.addControl(geoLocation);
         geoLocation.getCurrentPosition();
+
+        AMap.event.addListener(geoLocation, "complete", function(e){
+          alert("success:" + e.location_type + ",position:" + e.position);
+        });
+
+        AMap.event.addListener(geoLocation, "error", function(e){
+          alert("errorLocation:" + e.info +",message:" + e.message);
+        });
 
         autoComplete = new AMap.Autocomplete({ input:'autoInput'});
 
@@ -222,5 +242,63 @@ file.seekTo(0);
           placeSearch.search(e.poi.name);
         });
       });
+  }
+
+  getCurrentPosition() {
+    // this.getUserLocation();
+
+    this.location.getCurrentPosition().then((resp) => {
+      alert('resp:'+ resp);
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+    }).catch((error) => {
+      alert('Error getting location: '+ error);
+    });
+  }
+
+  // getUserLocation(): Promise<any> {
+  //   return new Promise<any>((resolve => {
+  //     LocationPlugin.getLocation(data => {
+  //       alert('data:'+ data);
+  //       this.latitude = data.latitude;
+  //       this.longitude = data.longitude;
+  //     }, msg => {
+  //       alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
+  //     });
+  //   }))
+  // }
+
+  loadCanvas() {
+    let canvas = <HTMLCanvasElement> document.getElementById("myCanvas");
+    let cxt = canvas.getContext("2d");
+    cxt.fillStyle="#FF0000";
+    cxt.beginPath();
+    cxt.arc(70,18,15,0,Math.PI*2,true);
+    cxt.closePath();
+    cxt.fill();
+  }
+
+  loadChart() {
+    Chart.Line(this.chartLine.nativeElement.getContext("2d"), {
+      data: {
+        labels : ["January","February","March","April","May","June","July"],
+        datasets : [
+          {
+            fillColor : "rgba(220,220,220,0.5)",
+            strokeColor : "rgba(220,220,220,1)",
+            pointColor : "rgba(220,220,220,1)",
+            pointStrokeColor : "#fff",
+            data : [65,59,90,81,56,55,40]
+          },
+          {
+            fillColor : "rgba(151,187,205,0.5)",
+            strokeColor : "rgba(151,187,205,1)",
+            pointColor : "rgba(151,187,205,1)",
+            pointStrokeColor : "#fff",
+            data : [28,48,40,19,96,27,100]
+          }
+        ]
+      }
+    })
   }
 }
