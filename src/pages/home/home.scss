@@ -1,3 +1,11 @@
 page-home {
 
 }
+
+.eyehide .eye-hide, .eyeshow .eye-show {
+  display: block;
+}
+
+.eyehide .eye-show, .eyeshow .eye-hide {
+  display: none;
+}

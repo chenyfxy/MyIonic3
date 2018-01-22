@@ -1,3 +1,4 @@
+import 'rxjs';
 import {Component, OnInit} from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NavController } from 'ionic-angular';
@@ -14,6 +15,9 @@ import { ShareService } from '../services/ShareService';
 
 import { Dialogs } from '@ionic-native/dialogs';
 
+import { Platform } from 'ionic-angular';
+
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -27,6 +31,7 @@ export class HomePage implements OnInit {
   psValue : any;
   checkedName : any;
   checkedPas : any;
+  pwshow: boolean = false;
 
   // first run
   constructor(public navCtrl: NavController, public storage: Storage,
